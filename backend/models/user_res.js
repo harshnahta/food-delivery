@@ -16,18 +16,26 @@ var res_list= mongoose.Schema({
         type:String,
         require:true
     },
+    resContact:{
+        type:Number,
+        require:true
+    },
     serviceType:{
         type:String,
         require:true
     },
     res_userName :{
         type:String,
-        unique:true
+        unique:true,
+        require:true
     },
     password:{
         type:String,
         minlenght:true,
         require:true
+    },
+    resprofileImage:{
+        type:Image
     },
     Tokens:{
         type:String
@@ -40,11 +48,14 @@ var item_list=mongoose.Schema({
         type:String,
         require:true
     },
+    resprofileImage:{
+        type:Image
+    },
     itemName:{
         type:String,
         require:true
     },
-    itemType:{
+    serviceType:{
         type:String,
         require:true
     },
@@ -60,11 +71,11 @@ var item_list=mongoose.Schema({
 
 
 var order_list =mongoose.Schema({
-cus_userName:{
+cusEmail:{
     type:String,
     require:true
 },
-cus_Address:{
+cusAddress:{
     type:String,
     require:true
 },
@@ -80,7 +91,7 @@ itemName:{
     type:String,
     require:true
 },
-itemType:{
+serviceType:{
     type:String,
     require:true
 },
@@ -95,7 +106,7 @@ orderDate:{
 amount:{
     type:Number
 },
-mode:{
+paymentMode:{
     type:String
 },
 Status:{
@@ -105,9 +116,38 @@ Status:{
 });
 
 
+var custmer=mongoose.Schema({
+    cusName:{
+        type:String,
+        require:true
+    },
+    cusAddress:{
+        type:String,
+        require:true
+    },
+    cusContact:{
+        type:Number,
+        require:true
+    },
+    cusPassword:{
+        type:String,
+        require:true
+    },
+    cusEmail:{
+        type:String,
+        require:true,
+        unique:true
+    },
+    cusProfileimage:{
+        type:Image
+    }
+
+});
+
+
 res_list.methods.generateAuthToken = function () {
     var user = this;
-    var token = jwt.sign({_id:user._id.toHexString()},'abc123').toString();
+    var token = jwt.sign({_id:user._id.toHexString()},'plcjs').toString();
      user.tokens=token;
     return user.save().then(()=>{
         return token;
@@ -133,5 +173,6 @@ res_list.pre('save',function(next){
 var resList = mongoose.model('resList',res_list);
 var  itemList= mongoose.model('itemList',item_list);
 var  orderList= mongoose.model('orderList',order_list);
-module.exports={resList,itemList,orderList};
+var Customer = mongoose.model('Customer',custmer);
+module.exports={resList,itemList,orderList,Customer};
 
