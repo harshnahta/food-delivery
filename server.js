@@ -1,5 +1,8 @@
 var {mongoose}=require('./backend/db/db');
-var {resList,itemList,orderList,Customer}=require('./backend/models/user_res');
+var {resList}=require('./backend/models/user_res');
+var {Customer}=require('./backend/models/user_cus');
+var {orderList}=require('./backend/models/order_list');
+var {itemList}=require('./backend/models/item_list');
 var express=require('express');
 var app = express();
 const _ =require('lodash');
@@ -29,7 +32,7 @@ app.post('/resUser',(req,res)=>{
      
  })
  .then((token)=>{
-     res.header('x-auth',token).send(newUser);        
+          res.header('x-auth',token).send(newUser);        
  })
  .catch((error)=>{
      res.status(404).send(error);
@@ -79,26 +82,55 @@ app.post('/resUser',(req,res)=>{
 
  //Customer Registeration
  app.post('/registerCustomer',(req,res)=>{
-    var body = _.pick(req.body,['cusName','cusAddress','cusContact','cusPassword','cusEmail','cusProfileimage']);
+     //console.log(res);
+    var body = _.pick(req.body,['cusName','cusAddress',' cusGender','cusContact','cusEmail','cusPassword','cusProfileimage']);
      var newCus = new Customer(body);
-     //console.log(newCus);
     newCus.save().then(()=>{
              //console.log('saved');
-     return newRes.generateAuthToken();   
+     return newCus.generateAuthToken();   
  })
  .then((token)=>{
-     res.header('x-auth',token).send(newUser);        
+     res.header('x-auth',token).send(newCus);        
  })
  .catch((error)=>{
      res.status(404).send(error);
  }); 
  });
 
+//customer login
+ app.post('/cusLogin',(req,res)=>{
+    var body = _.pick(req.body,['cusEmail','cusPassword']);
+    Customer.login(body.cusEmail,body.cusPassword).then((user)=>{
+          
+          return user.generateAuthToken().then((token)=>{
+              res.status(200).header('x-auth',token).json({
+                  'status':true ,
+                  'users' : user
+              });
+              
+          });
+      })
+      .catch((err)=>{
+          res.status(400).send();
+      });
+  
+  });
+  
 
- //FInd out History of orders
+
+ //FInd out History of orders res side
  app.get('/find_resd',(req,res)=>{
-    itemList.find({cusEmail : req.query['searchType']} ||
-     {resName : req.query['searchType']}).then((docs)=>{
+    itemList.find( {resName : req.query['searchType']}).then((docs)=>{
+        res.send(docs);
+    }).catch((err)=>{
+        res.status(400).send(err);
+    }) 
+ });
+
+ 
+ //FInd out History of orders cus side
+ app.get('/find_cusd',(req,res)=>{
+    itemList.find({cusEmail : req.query['searchType']}).then((docs)=>{
         res.send(docs);
     }).catch((err)=>{
         res.status(400).send(err);
