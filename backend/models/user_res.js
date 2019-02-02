@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-//const validator = require('validator');
-//const jwt=require('jsonwebtoken');
-//const _ = require('lodash');
+const validator = require('validator');
+const jwt=require('jsonwebtoken');
+const _ = require('lodash');
 const bcrypt=require('bcryptjs');
 var FCM = require('fcm-node');
 var serverKey = 'YOURSERVERKEYHERE';
@@ -46,9 +46,10 @@ var res_list= mongoose.Schema({
 
 res_list.methods.generateAuthToken = function () {
     var user = this;
-    //var token = jwt.sign({_id:user._id.toHexString()},'plcjs').toString();
-    var fcm = new FCM(serverKey); 
-    user.tokens=fcm;
+    var token = jwt.sign({_id:user._id.toHexString()},'plcjs').toString();
+    // var fcm = new FCM(serverKey); 
+    user.tokens=token;
+    //console.log(user);
     return user.save().then(()=>{
         return token;
     });
@@ -68,6 +69,32 @@ res_list.pre('save',function(next){
         next();
     }      
 });
+
+
+res_list.statics.login = function(res_userName,password){
+    var User = this;
+    //console.log(User);
+    return User.findOne({res_userName}).then((user)=>{
+        if(!user){
+            return Promise.reject();
+        }
+        console.log('lower');
+        return new Promise((resolve,reject)=>{
+            bcrypt.compare(password,user.password,(err,result)=>{
+                if(result){
+                    resolve(user);
+                }
+                else{
+
+                    reject();
+                }
+            });
+        });
+    })
+    .catch((err)=>{
+        return Promise.reject();
+    });
+};
 
 
 var resList = mongoose.model('resList',res_list);

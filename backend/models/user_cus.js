@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-
 const jwt=require('jsonwebtoken');
 const _ = require('lodash');
 const bcrypt=require('bcryptjs');
-var FCM = require('fcm-node');
-var serverKey = 'AAAAHJgxk_M:APA91bE1LwKHCnfiviDZ03weXUqpH5KS4X4Rjam7wXtdgpkCydvfl7Z5M5KGr_FsYERW2sGma7lSc1MpwXCvIK-E92D0QgVm58Btg6gVxyv9CIMAT6Y-02JHa8IsyxuPgrlUnNdugEjB';
+// var FCM = require('fcm-node');
+// var serverKey = 'AAAAHJgxk_M:APA91bE1LwKHCnfiviDZ03weXUqpH5KS4X4Rjam7wXtdgpkCydvfl7Z5M5KGr_FsYERW2sGma7lSc1MpwXCvIK-E92D0QgVm58Btg6gVxyv9CIMAT6Y-02JHa8IsyxuPgrlUnNdugEjB';
 
 
 var custmer=mongoose.Schema({

@@ -23,10 +23,6 @@ var order_list =mongoose.Schema({
         type:String,
         require:true
     },
-    serviceType:{
-        type:String,
-        require:true
-    },
     quantity:{
         type:String,
         require:true

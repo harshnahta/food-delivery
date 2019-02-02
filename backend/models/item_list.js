@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 
 var item_list=mongoose.Schema({
-    resName: {
+    res_userName: {
         type:String,
         require:true
     },
