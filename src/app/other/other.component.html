@@ -1,0 +1,36 @@
+<div class="container-fluid" >
+    <div class="row">
+        <div class="col-md-8">
+            <h3>Order Detail</h3>
+        </div>
+        <div class="col-md-4">
+            <input type="text" placeholder="Search">
+        </div>
+    </div>
+    <div class="row">
+            <table>
+                <tr style="background-color:blanchedalmond">
+                    <th>User Email</th>
+                    <th>User Address</th>
+                    <th>Restaurent Name</th>
+                    <th>Items</th>
+                    <th>Quantity</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                <tr *ngFor="let i of orderdetail">
+                        <td>{{i.cusEmail}}</td>
+                        <td>{{i.cusAddress}}</td>
+                        <td>{{i.resName}}</td>
+                        <td>{{i.itemName}}</td>
+                        <td>{{i.quantity}}</td>
+                        <td>{{i.orderDate}}</td>
+                        <td>{{i.Status}}</td>
+                        <td><i (click)="remove(i._id)" class="material-icons">
+                            remove_circle
+                            </i></td>
+                </tr>
+            </table>
+    </div>
+    </div>

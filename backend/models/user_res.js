@@ -3,8 +3,9 @@ const validator = require('validator');
 const jwt=require('jsonwebtoken');
 const _ = require('lodash');
 const bcrypt=require('bcryptjs');
-var FCM = require('fcm-node');
-var serverKey = 'YOURSERVERKEYHERE';
+// var FCM = require('fcm-node');
+// var serverKey = 'YOURSERVERKEYHERE';
+var {admin}=require('../firebase/firebase');
 
 
 
@@ -45,7 +46,25 @@ var res_list= mongoose.Schema({
 });
 
 res_list.methods.generateAuthToken = function () {
+   
+   
     var user = this;
+//     var uid = user.cusEmail;
+// return admin.auth().createCustomToken(uid)
+//   .then(function(customToken) {
+//     user.tokens=customToken;
+//     //console.log(customToken);
+//     return user.save().then(()=>{
+//       return customToken;
+//   });
+    
+//   })
+//   .catch(function(error) {
+//     console.log("Error creating custom token:", error);
+//   });
+   
+   
+   
     var token = jwt.sign({_id:user._id.toHexString()},'plcjs').toString();
     // var fcm = new FCM(serverKey); 
     user.tokens=token;
@@ -78,7 +97,7 @@ res_list.statics.login = function(res_userName,password){
         if(!user){
             return Promise.reject();
         }
-        console.log('lower');
+       
         return new Promise((resolve,reject)=>{
             bcrypt.compare(password,user.password,(err,result)=>{
                 if(result){

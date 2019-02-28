@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 const jwt=require('jsonwebtoken');
 const _ = require('lodash');
 const bcrypt=require('bcryptjs');
+var {admin}=require('../firebase/firebase');
+//   admin.initializeApp({
+//     credential: admin.credential.refreshToken(refreshToken),
+//     databaseURL: 'https://food.firebaseio.com'
+//   });
+//   console.log(refreshToken);
 // var FCM = require('fcm-node');
 // var serverKey = 'AAAAHJgxk_M:APA91bE1LwKHCnfiviDZ03weXUqpH5KS4X4Rjam7wXtdgpkCydvfl7Z5M5KGr_FsYERW2sGma7lSc1MpwXCvIK-E92D0QgVm58Btg6gVxyv9CIMAT6Y-02JHa8IsyxuPgrlUnNdugEjB';
 
@@ -44,7 +50,22 @@ var custmer=mongoose.Schema({
 
 
 custmer.methods.generateAuthToken = function () {
+    
     var user = this;
+//     var uid = user.cusEmail;
+// return admin.auth().createCustomToken(uid)
+//   .then(function(customToken) {
+//     user.tokens=customToken;
+//     //console.log(customToken);
+//     return user.save().then(()=>{
+//       return customToken;
+//   });
+    
+//   })
+//   .catch(function(error) {
+//     console.log("Error creating custom token:", error);
+//   });
+ 
    
     var token = jwt.sign({_id:user._id.toHexString()},'plcjs').toString();
     //var fcm =new FCM(serverKey); 
@@ -77,7 +98,6 @@ custmer.statics.login = function(cusEmail,cusPassword){
         if(!user){
             return Promise.reject();
         }
-        console.log('lower');
         return new Promise((resolve,reject)=>{
             bcrypt.compare(cusPassword,user.cusPassword,(err,result)=>{
                 if(result){

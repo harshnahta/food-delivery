@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <h3>Restaurent Detail</h3>
+        </div>
+        <div class="col-md-4">
+            <!-- <input type="text" placeholder="Search"> -->
+        </div>
+    </div>
+    <div class="row">
+            <table>
+                <tr style="background-color:blanchedalmond">
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Service Type</th>
+                    
+                    <th>Action</th>
+                </tr>
+                <tr *ngFor="let i of resdetail">
+                        <th>{{i.resName}}</th>
+                        <th>{{i.resAddress}}</th>
+                        <th>{{i.serviceType}}</th>
+          
+                        <th><i (click)="remove(i.resName)" class="material-icons">
+                                remove_circle
+                                </i></th>
+                </tr>
+            </table>
+    </div>
+    </div>

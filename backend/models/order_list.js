@@ -15,10 +15,6 @@ var order_list =mongoose.Schema({
         type:String,
         require:true
     },
-    resAddress:{
-        type:String,
-        require:true
-    },
     itemName:{
         type:String,
         require:true
@@ -28,7 +24,7 @@ var order_list =mongoose.Schema({
         require:true
     },
     orderDate:{
-        type:String,
+        type:Date,
         require:true
     },
     amount:{
