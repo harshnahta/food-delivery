@@ -6,7 +6,7 @@ var {itemList}=require('./backend/models/item_list');
 var express=require('express');
 var app = express();
 const _ =require('lodash');
-var {res}=require('./backend/firebase/firebase');
+//var {res}=require('./backend/firebase/firebase');
 // var {food}=require('./backend/firebase/firebase1');
 //var serviceAccount = require('path/to/serviceAccountKey.json');
 
